@@ -53,7 +53,7 @@ export function ProductInfo({salesData}) {
 
         {navigations.map((item, index) => {
           return (
-            <ListItem>
+            <ListItem key={index}>
             <ListItemIcon className={classes.iconWidth}>{item.logo}</ListItemIcon>
             <ListItemText>
             <Typography variant="subtitle2">{item.text}</Typography>

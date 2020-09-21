@@ -13,7 +13,6 @@ export const salesDataSlice = createSlice({
     fetchDataSuccess: (state, action) => {
       state.loading = false;
       state.salesData = action.payload;
-      console.log(state.salesData)
     },
   },
 });
