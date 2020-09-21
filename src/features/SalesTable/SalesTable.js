@@ -11,43 +11,45 @@ import {
     Table,
     TableHeaderRow,
     PagingPanel,
-    Toolbar,
-    SearchPanel,
-    TableSelection,
   } from '@devexpress/dx-react-grid-material-ui';
   import columns from './SalesTable.columns';
+  import { Plugin } from "@devexpress/dx-react-core";
 
 const pageSizes = [10, 20, 30];
 
 const SalesTable = ({salesData}) => {
 
-    const rows = useMemo(
-        () =>
-        salesData.sales.map((sale, index) => {
-            return {...sale, index};
-          }),
-        [salesData.sales],
-      );
+  const rows = useMemo(
+    () =>
+    salesData.sales.map((sale, index) => {
+      
+      return {...sale, index};
+    }),
+    [salesData.sales],
+    );
     
-    console.log(rows);
     const [pageSize, setPageSize] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
+    const plugins = [];
+    plugins.push(<PagingState
+      pageSize={pageSize}
+      onPageSizeChange={setPageSize}
+      currentPage={currentPage}
+      onCurrentPageChange={setCurrentPage}
+      defaultCurrentPage={1}
+      defaultPageSize={20}
+    />);
+    plugins.push(<IntegratedPaging />);
+    plugins.push(<SortingState />);
+    plugins.push(<IntegratedSorting />);
+    plugins.push(<Table />);
+    plugins.push(<TableHeaderRow showSortingControls/>);
+    plugins.push(<PagingPanel pageSizes={pageSizes} />);
     return (
-        <Grid rows={rows} columns={columns}>
-        <PagingState
-          pageSize={pageSize}
-          onPageSizeChange={setPageSize}
-          currentPage={currentPage}
-          onCurrentPageChange={setCurrentPage}
-          defaultCurrentPage={1}
-          defaultPageSize={20}
-        />
-        <IntegratedPaging />
-        <SortingState />
-        <IntegratedSorting />
-        <Table />
-        <TableHeaderRow showSortingControls/>
-        <PagingPanel pageSizes={pageSizes} />
+        <Grid key={plugins.length} rows={rows} columns={columns}>
+        {plugins.map((plugin, index) => (
+            <Plugin key={index}>{plugin}</Plugin>
+          ))}
         </Grid>
     );
 };

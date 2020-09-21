@@ -8,7 +8,15 @@ export default [
 
         var date = new Date(weekEnding);
         if (!isNaN(date.getTime())) {
-            return date.getMonth() + 1 + '-' + date.getDate() + '-' + date.getFullYear();
+
+            const year = date.getFullYear()
+
+            const month = `${date.getMonth() + 1}`.padStart(2, "0")
+
+            const day = `${date.getDate()}`.padStart(2, "0")
+
+            return [month, day, year].join("-")
+
         }
         } catch (e) {
           if (weekEnding) {
