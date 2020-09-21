@@ -3,7 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchSalesData,
 } from './salesDataSlice';
-import {SideNav} from '../SideNav/SideNav';
+import { ProductInfo } from '../SideNav/ProductInfo';
+import { Box, Grid, Paper } from '@material-ui/core';
+
 
 export function Home() {
   const salesData = useSelector(state => state.salesData.salesData);
@@ -14,13 +16,22 @@ export function Home() {
     dispatch(fetchSalesData());
   }, []);
 
-  console.log(salesData.loading);
+  console.log(isSalesDataLoading);
 
   return (
-    <div>
+    <Box m={2}>
         {isSalesDataLoading
         ? "Loading...": 
-        <SideNav salesData={salesData[0]}/>}
-    </div>
+        <Grid container spacing={3}>
+            <Grid item xs={3}>
+                <Paper elevation={3}>
+                <ProductInfo salesData={salesData[0]}/>
+                </Paper>
+            </Grid>
+            <Grid item xs={9}></Grid>
+
+        </Grid>
+    }
+    </Box>
   );
 }
